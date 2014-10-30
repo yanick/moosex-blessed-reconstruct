@@ -4,8 +4,6 @@ Revision history for MooseX-Blessed-Reconstruct
  [API CHANGES]
 
  [BUG FIXES]
- - Class::MOP::load_class is deprecated, using Class::Load::load_class
-    directly. (Yanick Champoux)
 
  [DOCUMENTATION]
 
@@ -15,15 +13,24 @@ Revision history for MooseX-Blessed-Reconstruct
 
  [STATISTICS]
 
+0.5 2014-10-30
+ [BUG FIXES]
+ - Class::MOP::load_class is deprecated, using Class::Load::load_class
+   directly. (Yanick Champoux)
+
+ [STATISTICS]
+ - code churn: 7 files changed, 69 insertions(+), 52 deletions(-)
+
 0.04 2010-07-13
-    - Update BUILDALL behavior for recent versions of Moose (doy)
+ - Update BUILDALL behavior for recent versions of Moose (doy)
 
 0.03 2009-09-17
-    - Class::MOP no longer returns the metaclass from load_class
+ - Class::MOP no longer returns the metaclass from load_class
 
-0.02 - 2008-12-06
-	- Remove Class::Accessor from test suite (not having it as a dependency
-	  caused failures)
+0.02 2008-12-06
+ - Remove Class::Accessor from test suite (not having it as a dependency
+   caused failures)
 
-0.01 - 2008-09-24
-	- Initial release
+0.01 2008-09-24
+ - Initial release
+
