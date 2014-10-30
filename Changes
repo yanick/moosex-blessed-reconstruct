@@ -4,6 +4,8 @@ Revision history for MooseX-Blessed-Reconstruct
  [API CHANGES]
 
  [BUG FIXES]
+ - Class::MOP::load_class is deprecated, using Class::Load::load_class
+    directly. (Yanick Champoux)
 
  [DOCUMENTATION]
 

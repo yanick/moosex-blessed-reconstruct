@@ -1,6 +1,7 @@
-#!/usr/bin/perl
-
 package MooseX::Blessed::Reconstruct;
+# ABSTRACT: A L<Data::Visitor> for creating Moose objects from blessed placeholders
+
+
 use Moose;
 
 use Carp qw(croak);
@@ -81,11 +82,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-MooseX::Blessed::Reconstruct - A L<Data::Visitor> for creating Moose objects
-from blessed placeholders
-
 =head1 SYNOPSIS
 
 	use MooseX::Blessed::Reconstruct;
@@ -143,22 +139,3 @@ L<Moose::Meta::Class/new_object>.
 
 =back
 
-=head1 VERSION CONTROL
-
-This module is maintained using Darcs. You can get the latest version from
-L<http://nothingmuch.woobling.org/code>, and use C<darcs send> to commit
-changes.
-
-=head1 AUTHOR
-
-Jonathan Rockway
-
-Yuval Kogman E<lt>nothingmuch@woobling.orgE<gt>
-
-=head1 COPYRIGHT
-
-	Copyright (c) 2008 Infinity Interactive, Yuval Kogman. All rights
-	reserved This program is free software; you can redistribute
-	it and/or modify it under the same terms as Perl itself.
-
-=cut
