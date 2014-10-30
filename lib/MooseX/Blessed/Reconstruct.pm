@@ -14,8 +14,6 @@ use Scalar::Util qw(reftype);
 
 use namespace::clean -except => 'meta';
 
-our $VERSION = "0.03";
-
 extends qw(Data::Visitor);
 
 has load_classes => (

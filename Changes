@@ -4,6 +4,7 @@ Revision history for MooseX-Blessed-Reconstruct
  [API CHANGES]
 
  [BUG FIXES]
+ - $VERSION was still not using the dzil increment. (GH#1)
 
  [DOCUMENTATION]
 
