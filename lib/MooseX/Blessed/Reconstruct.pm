@@ -1,6 +1,9 @@
 package MooseX::Blessed::Reconstruct;
+BEGIN {
+  $MooseX::Blessed::Reconstruct::AUTHORITY = 'cpan:YANICK';
+}
 # ABSTRACT: A L<Data::Visitor> for creating Moose objects from blessed placeholders
-
+$MooseX::Blessed::Reconstruct::VERSION = '1.00';
 
 use Moose;
 
@@ -80,6 +83,16 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
+=head1 NAME
+
+MooseX::Blessed::Reconstruct - A L<Data::Visitor> for creating Moose objects from blessed placeholders
+
+=head1 VERSION
+
+version 1.00
+
 =head1 SYNOPSIS
 
 	use MooseX::Blessed::Reconstruct;
@@ -137,3 +150,25 @@ L<Moose::Meta::Class/new_object>.
 
 =back
 
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Yuval Kogman <nothingmuch@woobling.org>
+
+=item *
+
+Jonathan Rockway <jrockway@cpan.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2008 by Infinity Interactive, Yuval Kogman.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

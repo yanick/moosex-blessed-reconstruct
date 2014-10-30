@@ -1,18 +1,11 @@
 Revision history for MooseX-Blessed-Reconstruct
 
-{{$NEXT}}
- [API CHANGES]
-
+1.00 2014-10-30
  [BUG FIXES]
  - $VERSION was still not using the dzil increment. (GH#1)
 
- [DOCUMENTATION]
-
- [ENHANCEMENTS]
-
- [NEW FEATURES]
-
  [STATISTICS]
+ - code churn: 3 files changed, 18 insertions(+), 12 deletions(-)
 
 0.5 2014-10-30
  [BUG FIXES]
