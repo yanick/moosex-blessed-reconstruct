@@ -1,5 +1,5 @@
 requires "Carp" => "0";
-requires "Class::Load" => "0";
+requires "Module::Runtime" => "0";
 requires "Class::MOP" => "0.93";
 requires "Data::Visitor" => "0.21";
 requires "Moose" => "1.05";
