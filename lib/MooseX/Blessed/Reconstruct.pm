@@ -10,7 +10,7 @@ use Moose;
 use Carp qw(croak);
 
 use Class::MOP;
-use Class::Load;
+use Module::Runtime;
 use Data::Visitor 0.21; # n-arity visit
 
 use Scalar::Util qw(reftype);
@@ -30,7 +30,7 @@ sub visit_object {
 
 	my $class = ref $obj;
 
-	Class::Load::load_class($class) if $v->load_classes;
+	Module::Runtime::use_package_optimistically($class) if $v->load_classes;
 
 	my $meta = Class::MOP::get_metaclass_by_name($class);
 

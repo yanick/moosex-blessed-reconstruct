@@ -28,7 +28,7 @@ provides:
     version: '1.00'
 requires:
   Carp: '0'
-  Class::Load: '0'
+  Module::Runtime: '0'
   Class::MOP: '0.93'
   Data::Visitor: '0.21'
   Moose: '1.05'

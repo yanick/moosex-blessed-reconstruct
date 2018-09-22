@@ -49,7 +49,7 @@ sub pmver {
 }
 
 eval { $v .= pmver('Carp','any version') };
-eval { $v .= pmver('Class::Load','any version') };
+eval { $v .= pmver('Module::Runtime','any version') };
 eval { $v .= pmver('Class::MOP','0.93') };
 eval { $v .= pmver('Data::Visitor','0.21') };
 eval { $v .= pmver('File::Spec','any version') };
