@@ -8,6 +8,7 @@ Revision history for MooseX-Blessed-Reconstruct
  [DOCUMENTATION]
 
  [ENHANCEMENTS]
+ - Replace Load::Class by Module::Runtime. [GH#3, choroba]
 
  [NEW FEATURES]
 
