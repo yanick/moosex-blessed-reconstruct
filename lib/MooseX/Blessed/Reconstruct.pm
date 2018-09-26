@@ -98,9 +98,6 @@ __END__
 The purpose of this module is to "fix up" blessed data into a real Moose
 object.
 
-This is used internally by L<MooseX::YAML> but has no implementation details
-having to do with L<YAML> itself.
-
 =head1 METHODS
 
 See L<Data::Visitor>
