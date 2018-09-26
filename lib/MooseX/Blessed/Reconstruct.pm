@@ -21,14 +21,18 @@ has load_classes => (
 	default => 1,
 );
 
+before visit_object => sub {
+    my ( $v, $obj ) = @_;
+
+    return unless $v->load_classes;
+
+    Module::Runtime::use_package_optimistically(ref $obj);
+};
+
 sub visit_object {
 	my ( $v, $obj ) = @_;
 
-	my $class = ref $obj;
-
-	Module::Runtime::use_package_optimistically($class) if $v->load_classes;
-
-	my $meta = Class::MOP::get_metaclass_by_name($class);
+	my $meta = Class::MOP::get_metaclass_by_name(ref $obj);
 
     return ref $meta ? $v->visit_object_with_meta($obj, $meta)
                      : $v->visit_ref($obj);
@@ -48,24 +52,18 @@ sub visit_object_with_meta {
 	return $instance;
 }
 
+my %refmap = (
+    HASH   => sub { %{ $_[0] } },
+    ARRAY  => sub { @{ $_[0] } },
+    SCALAR => sub { ${ $_[0] } },
+);
+
 sub prepare_args {
 	my ( $v, $meta, $obj ) = @_;
 
-    my @args;
+    my $f = $refmap{ reftype $obj } or croak "unknown ref type $obj";
 
-    if ( reftype $obj eq 'HASH' ) {
-        @args = %$obj;
-    } elsif ( reftype $obj eq 'ARRAY' ) {
-        @args = @$obj;
-    } elsif ( reftype $obj eq 'SCALAR' ) {
-        @args = $$obj;
-    } else {
-        croak "unknown ref type $obj";
-    }
-
-    my @processed = $v->visit(@args);
-
-    return $meta->name->BUILDARGS(@processed);
+    return $meta->name->BUILDARGS($v->visit($f->($obj)));
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -87,7 +85,6 @@ __END__
 	}, "Foo" );
 
 	my $proper = MooseX::Blessed::Reconstruct->new->visit($obj);
-
 
 
 	# equivalent to:
@@ -123,7 +120,12 @@ Constructor.
 If C<true> (which is the default), we will try to require its class 
 when the target object is C<visit>ed. 
 
-=back
+=back 
+
+=item load_classes 
+
+Read/write accessor to the C<load_classes> attribute.
+If C<true>, we try to require its class when a target object is C<visit>ed. 
 
 =item visit_object $object
 
