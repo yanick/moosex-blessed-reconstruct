@@ -110,6 +110,21 @@ See L<Data::Visitor>
 
 =over 4
 
+=item new 
+
+Constructor. 
+
+=head2 arguments
+
+=over 
+
+=item load_classes 
+
+If C<true> (which is the default), we will try to require its class 
+when the target object is C<visit>ed. 
+
+=back
+
 =item visit_object $object
 
 Calls L<Class::MOP/load_class> on the C<ref> of $object.
