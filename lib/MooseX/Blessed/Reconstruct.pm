@@ -102,13 +102,11 @@ object.
 
 See L<Data::Visitor>
 
-=over 4
-
-=item new 
+=head2 new 
 
 Constructor. 
 
-=head2 arguments
+=head3 arguments
 
 =over 
 
@@ -119,12 +117,12 @@ when the target object is C<visit>ed.
 
 =back 
 
-=item load_classes 
+=head2 load_classes 
 
 Read/write accessor to the C<load_classes> attribute.
 If C<true>, we try to require its class when a target object is C<visit>ed. 
 
-=item visit_object $object
+=head2 visit_object $object
 
 Calls L<Class::MOP/load_class> on the C<ref> of $object.
 
@@ -134,16 +132,14 @@ is used to walk the object brutishly.
 Returns a deep clone of the input structure with all the L<Moose> objects
 reconstructed "properly".
 
-=item visit_object_with_meta $obj, $meta
+=head2 visit_object_with_meta $obj, $meta
 
 Uses the metaclass C<$meta> to create a new instance, registers the instance
 with L<Data::Visitor>'s cycle tracking, and then inflates it using
 L<Moose::Meta::Class/new_object>.
 
-=item prepare_args $obj
+=head2 prepare_args $obj
 
 Collapses $obj into key value pairs to be used as init args to
 L<Moose::Meta::Class/new_object>.
-
-=back
 
