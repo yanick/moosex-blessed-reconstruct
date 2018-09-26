@@ -124,7 +124,7 @@ If C<true>, we try to require its class when a target object is C<visit>ed.
 
 =head2 visit_object $object
 
-Calls L<Class::MOP/load_class> on the C<ref> of $object.
+Calls L<Class::MOP/get_metaclass_by_name($name)> on the C<ref> of $object.
 
 If there's a metaclass, calls C<visit_object_with_meta>, otherwise C<visit_ref>
 is used to walk the object brutishly.
