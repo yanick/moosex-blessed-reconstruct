@@ -1,13 +1,12 @@
 package MooseX::Blessed::Reconstruct;
 # ABSTRACT: A L<Data::Visitor> for creating Moose objects from blessed placeholders
 
-
-use Moose;
+use Moose 1.05;
 
 use Carp qw(croak);
 
-use Class::MOP;
-use Class::Load;
+use Class::MOP 0.93;
+use Module::Runtime;
 use Data::Visitor 0.21; # n-arity visit
 
 use Scalar::Util qw(reftype);
@@ -22,20 +21,21 @@ has load_classes => (
 	default => 1,
 );
 
+before visit_object => sub {
+    my ( $v, $obj ) = @_;
+
+    return unless $v->load_classes;
+
+    Module::Runtime::use_package_optimistically(ref $obj);
+};
+
 sub visit_object {
 	my ( $v, $obj ) = @_;
 
-	my $class = ref $obj;
+	my $meta = Class::MOP::get_metaclass_by_name(ref $obj);
 
-	Class::Load::load_class($class) if $v->load_classes;
-
-	my $meta = Class::MOP::get_metaclass_by_name($class);
-
-	if ( ref $meta ) {
-		return $v->visit_object_with_meta($obj, $meta);
-	} else {
-		return $v->visit_ref($obj);
-	}
+    return ref $meta ? $v->visit_object_with_meta($obj, $meta)
+                     : $v->visit_ref($obj);
 }
 
 sub visit_object_with_meta {
@@ -52,24 +52,18 @@ sub visit_object_with_meta {
 	return $instance;
 }
 
+my %refmap = (
+    HASH   => sub { %{ $_[0] } },
+    ARRAY  => sub { @{ $_[0] } },
+    SCALAR => sub { ${ $_[0] } },
+);
+
 sub prepare_args {
 	my ( $v, $meta, $obj ) = @_;
 
-    my @args;
+    my $f = $refmap{ reftype $obj } or croak "unknown ref type $obj";
 
-    if ( reftype $obj eq 'HASH' ) {
-        @args = %$obj;
-    } elsif ( reftype $obj eq 'ARRAY' ) {
-        @args = @$obj;
-    } elsif ( reftype $obj eq 'SCALAR' ) {
-        @args = $$obj;
-    } else {
-        croak "unknown ref type $obj";
-    }
-
-    my @processed = $v->visit(@args);
-
-    return $meta->name->BUILDARGS(@processed);
+    return $meta->name->BUILDARGS($v->visit($f->($obj)));
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -93,7 +87,6 @@ __END__
 	my $proper = MooseX::Blessed::Reconstruct->new->visit($obj);
 
 
-
 	# equivalent to:
 
 	my $proper = Foo->meta->new_object(%$obj);
@@ -105,16 +98,31 @@ __END__
 The purpose of this module is to "fix up" blessed data into a real Moose
 object.
 
-This is used internally by L<MooseX::YAML> but has no implementation details
-having to do with L<YAML> itself.
-
 =head1 METHODS
 
 See L<Data::Visitor>
 
-=over 4
+=head2 new 
 
-=item visit_object $object
+Constructor. 
+
+=head3 arguments
+
+=over 
+
+=item load_classes 
+
+If C<true> (which is the default), we will try to require its class 
+when the target object is C<visit>ed. 
+
+=back 
+
+=head2 load_classes 
+
+Read/write accessor to the C<load_classes> attribute.
+If C<true>, we try to require its class when a target object is C<visit>ed. 
+
+=head2 visit_object $object
 
 Calls L<Class::MOP/load_class> on the C<ref> of $object.
 
@@ -124,16 +132,14 @@ is used to walk the object brutishly.
 Returns a deep clone of the input structure with all the L<Moose> objects
 reconstructed "properly".
 
-=item visit_object_with_meta $obj, $meta
+=head2 visit_object_with_meta $obj, $meta
 
 Uses the metaclass C<$meta> to create a new instance, registers the instance
 with L<Data::Visitor>'s cycle tracking, and then inflates it using
 L<Moose::Meta::Class/new_object>.
 
-=item prepare_args $obj
+=head2 prepare_args $obj
 
 Collapses $obj into key value pairs to be used as init args to
 L<Moose::Meta::Class/new_object>.
-
-=back
 
