@@ -30,11 +30,8 @@ sub visit_object {
 
 	my $meta = Class::MOP::get_metaclass_by_name($class);
 
-	if ( ref $meta ) {
-		return $v->visit_object_with_meta($obj, $meta);
-	} else {
-		return $v->visit_ref($obj);
-	}
+    return ref $meta ? $v->visit_object_with_meta($obj, $meta)
+                     : $v->visit_ref($obj);
 }
 
 sub visit_object_with_meta {
