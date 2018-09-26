@@ -1,11 +1,11 @@
 package MooseX::Blessed::Reconstruct;
 # ABSTRACT: A L<Data::Visitor> for creating Moose objects from blessed placeholders
 
-use Moose;
+use Moose 1.05;
 
 use Carp qw(croak);
 
-use Class::MOP;
+use Class::MOP 0.93;
 use Module::Runtime;
 use Data::Visitor 0.21; # n-arity visit
 

@@ -1,11 +1,9 @@
 requires "Carp" => "0";
-requires "Class::Load" => "0";
 requires "Class::MOP" => "0.93";
 requires "Data::Visitor" => "0.21";
 requires "Module::Runtime" => "0";
 requires "Moose" => "1.05";
 requires "Scalar::Util" => "0";
-requires "Test::use::ok" => "0";
 requires "namespace::clean" => "0";
 
 on 'test' => sub {
